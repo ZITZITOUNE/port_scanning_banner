@@ -7,17 +7,20 @@ import time
 import concurrent.futures
 
 banners = '''
-███████ ██ ████████    ███████ ██ ████████  ██████  ██    ██ ███    ██ ███████    ██
-   ███  ██    ██          ███  ██    ██    ██    ██ ██    ██ ████   ██ ██         ██
-  ███   ██    ██         ███   ██    ██    ██    ██ ██    ██ ██ ██  ██ █████      ██
- ███    ██    ██        ███    ██    ██    ██    ██ ██    ██ ██  ██ ██ ██
-███████ ██    ██       ███████ ██    ██     ██████   ██████  ██   ████ ███████    ██
+ ███████ ██ ████████    ███████ ██ ████████  ██████  ██    ██ ███    ██ ███████   ██
+    ███  ██    ██          ███  ██    ██    ██    ██ ██    ██ ████   ██ ██        ██
+   ███   ██    ██         ███   ██    ██    ██    ██ ██    ██ ██ ██  ██ █████     ██
+  ███    ██    ██        ███    ██    ██    ██    ██ ██    ██ ██  ██ ██ ██
+ ███████ ██    ██       ███████ ██    ██     ██████   ██████  ██   ████ ███████   ██
 
-************************************************************************************
-*                          Copyright of Hamza MOUNIR, 2022                         *
-*                           https://github.com/ZITZITOUNE                          *
-************************************************************************************
+ ***********************************************************************************
+ *                          Copyright of Hamza MOUNIR, 2022                        *
+ *                           https://github.com/ZITZITOUNE                         *
+ ***********************************************************************************
 '''
+
+# The f in front of the strings tells Python to look at the values inside {} and replace them with the values of the variables if they exist.
+# For example : print(f" Scanning lasted {round(end - start, 2)}seconds")
 
 # clear
 def clear_screen():
@@ -62,10 +65,11 @@ def scanner(port):
     s.settimeout(0.5)
     try:
         s.connect((ip, port))
-        print(
+        colorLightGray(
             f"Port {str(port).ljust(5)}{str(open).ljust(10)} {socket.getservbyport(port, 'tcp').ljust(14)} {grab_banner(ip, port)}")
     except socket.timeout:
         s.close()
+        
 # function for banner grabbing
 def grab_banner(ip, port):
     try:
@@ -82,9 +86,9 @@ def main():
     clear_screen()
     colorRed(banners)
     colorGreen("─" * 83)
-    print(f"Scanning {str(int(max_range) + 1 - int(min_range))} ports in {ip}")
+    colorLightGray(f"Scanning from port {int(min_range)} to {int(max_range)} in {ip}")
     colorGreen("─" * 83)
-    print("PORT      STATE      SERVICE        BANNER")
+    colorLightGray("PORT      STATE      SERVICE        BANNER")
     start = time.perf_counter()
     with concurrent.futures.ThreadPoolExecutor(max_workers=50) as executor:
         results = [executor.submit(scanner, i) for i in range(
@@ -93,14 +97,14 @@ def main():
             f.result()
     end = time.perf_counter()
     colorGreen("─" * 83)
-    print(f"Scanning lasted {round(end - start, 2)}seconds")
+    colorLightGray(f"Scanning lasted {round(end - start, 2)}seconds")
 
 # call main
 if __name__ == '__main__':
     try:
         main()
     except KeyboardInterrupt:
-        print('Interrupted')
+        colorRed('Interrupted')
         try:
             sys.exit(0)
         except SystemExit:
