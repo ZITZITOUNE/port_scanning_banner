@@ -13,3 +13,5 @@ The result of the scan :
 ![image](https://user-images.githubusercontent.com/85711559/175503486-71e9fca3-0d84-42fb-a4be-7abde8164228.png)
 
 - You have at the bottom at the end of the scan, the time in seconds that the scan took.
+- The f in front of the strings tells Python to look at the values inside {} and replace them with the values of the variables if they exist.
+- For example : print(f" Scanning lasted {round(end - start, 2)}seconds")
